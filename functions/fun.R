@@ -1,11 +1,15 @@
-# les librairies 
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(purrr)
-
 # 1. Vérification des règles légales
+#' Title
+#'
+#' @param heures_f1 
+#' @param heures_f2 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 verifier_heures <- function(heures_f1, heures_f2) {
+  
   if (heures_f1 > 48 || heures_f2 > 48) {
     return("Erreur : Les heures par semaine ne peuvent pas dépasser 48.")
   }
@@ -16,7 +20,19 @@ verifier_heures <- function(heures_f1, heures_f2) {
 }
 
 # 2.calcul le salaire net de la nounou
+#' Title
+#'
+#' @param salaire_brut 
+#' @param transport_bonus 
+#' @param heures_f1_semaine 
+#' @param heures_f2_semaine 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 calculer_salaire <- function(salaire_brut, transport_bonus, heures_f1_semaine, heures_f2_semaine) {
+  
   # Nombre total d'heures hebdomadaires
   heures_totales_semaine <- heures_f1_semaine + heures_f2_semaine
   
@@ -39,7 +55,19 @@ calculer_salaire <- function(salaire_brut, transport_bonus, heures_f1_semaine, h
 
 
 #3. Calcul du coût partagé et spécifique
+#' Title
+#'
+#' @param salaire_brut 
+#' @param heures_f1 
+#' @param heures_f2 
+#' @param vacances 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 calculer_cout_base <- function(salaire_brut, heures_f1, heures_f2, vacances) {
+  
   cout_heure_partage <- salaire_brut / 2
   
   cout_f1 <- (cout_heure_partage * min(heures_f1, heures_f2)) + 
@@ -58,7 +86,19 @@ calculer_cout_base <- function(salaire_brut, heures_f1, heures_f2, vacances) {
 }
 
 #4. Calcul des déductions légales
+#' Title
+#'
+#' @param cout_f1 
+#' @param cout_f2 
+#' @param heures_f1 
+#' @param heures_f2 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 calculer_deductions <- function(cout_f1, cout_f2, heures_f1, heures_f2) {
+  
   # Déduction pour les charges sociales (50% dans la limite de 452 €/mois)
   deduction_f1_charges <- min(cout_f1 * 0.5, 452)
   deduction_f2_charges <- min(cout_f2 * 0.5, 452)
@@ -79,7 +119,19 @@ calculer_deductions <- function(cout_f1, cout_f2, heures_f1, heures_f2) {
 
 
 #5. Calcul du crédit d'impôt
+#' Title
+#'
+#' @param cout_f1 
+#' @param cout_f2 
+#' @param deductions_f1 
+#' @param deductions_f2 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 calculer_credit_impot <- function(cout_f1, cout_f2, deductions_f1, deductions_f2) {
+  
   reste_a_charge_f1 <- cout_f1 - deductions_f1
   reste_a_charge_f2 <- cout_f2 - deductions_f2
   
@@ -93,7 +145,21 @@ calculer_credit_impot <- function(cout_f1, cout_f2, deductions_f1, deductions_f2
 }
 
 #6. Calcul du reste à payer après crédit d'impôt
+#' Title
+#'
+#' @param cout_f1 
+#' @param cout_f2 
+#' @param deductions_f1 
+#' @param deductions_f2 
+#' @param credit_f1 
+#' @param credit_f2 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 calculer_reste_a_payer <- function(cout_f1, cout_f2, deductions_f1, deductions_f2, credit_f1, credit_f2) {
+  
   reste_f1 <- cout_f1 - deductions_f1 - credit_f1
   reste_f2 <- cout_f2 - deductions_f2 - credit_f2
   
@@ -104,7 +170,21 @@ calculer_reste_a_payer <- function(cout_f1, cout_f2, deductions_f1, deductions_f
 }
 
 #7. Fonction principale pour tout calculer
+#' Title
+#'
+#' @param salaire_net 
+#' @param salaire_brut 
+#' @param transport_bonus 
+#' @param heures_f1 
+#' @param heures_f2 
+#' @param vacances 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 calculer_tous_les_couts <- function(salaire_net, salaire_brut, transport_bonus, heures_f1, heures_f2, vacances) {
+  
   
   salaire <- calculer_salaire( salaire_brut,transport_bonus, heures_f1, heures_f2)
   
@@ -123,7 +203,16 @@ calculer_tous_les_couts <- function(salaire_net, salaire_brut, transport_bonus, 
 }
 
 #8. Fonction de visualisation
+#' Title
+#'
+#' @param resultats 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 visualiser_couts <- function(resultats) {
+  
   resultats %>%
     pivot_longer(cols = c(cout_f1, cout_f2, reste_f1, reste_f2),
                  names_to = "type", values_to = "valeur") %>%
@@ -136,7 +225,19 @@ visualiser_couts <- function(resultats) {
 }
 
 #9 calcul du reste sur le salaire des familles
+#' Title
+#'
+#' @param revenu_f1 
+#' @param revenu_f2 
+#' @param cout_f1 
+#' @param cout_f2 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 calculer_reste_salaire_familles <- function(revenu_f1, revenu_f2, cout_f1, cout_f2) {
+  
   
   reste_salaire_f1 <- revenu_f1 - cout_f1
   reste_salaire_f2 <- revenu_f2 - cout_f2

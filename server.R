@@ -1,6 +1,4 @@
 # Charger les fonctions
-source("functions/fun.R")
-
   server <- function(input, output){
     observeEvent(input$calculer, {
       
