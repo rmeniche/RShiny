@@ -54,7 +54,10 @@ body <- dashboardBody(
           h3("Paramètres généraux"),
           numericInput("salaire_brut", "Salaire brut horaire (€) :", value = 12, min = 0),
           numericInput("transport_bonus", "Prime de transport (€) :", value = 50, min = 0),
-          numericInput("vacation_weeks", "Nombre de semaines de vacances :", value = 5, min = 0, max = 52)
+          numericInput("vacation_weeks", "Nombre de semaines de vacances :", value = 5, min = 0, max = 52),
+          h3("Calcul par durée"),
+          selectInput("duree_type", "Type de durée :", choices = c("jour", "mois"), selected = "mois"),
+          numericInput("duree_nb", "Nombre de jours ou mois :", value = 1, min = 1)
         )
       ),
       actionButton("calculer", "Calculer"),

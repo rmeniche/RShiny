@@ -66,24 +66,46 @@ calculer_salaire <- function(salaire_brut, transport_bonus, heures_f1_semaine, h
 #' @export
 #'
 #' @examples
-calculer_cout_base <- function(salaire_brut, heures_f1, heures_f2, vacances) {
+calculer_cout_base <- function(salaire_brut, transport_bonus, heures_f1, heures_f2, vacances) {
+  # Heures mensuelles pour chaque famille
+  heures_f1_mois <- heures_f1 * 4
+  heures_f2_mois <- heures_f2 * 4
   
-  cout_heure_partage <- salaire_brut / 2
+  # Calcul du salaire brut mensuel total
+  salaire <- calculer_salaire(salaire_brut, transport_bonus, heures_f1, heures_f2)
+  salaire_brut_mois <- salaire$brut_mensuel
   
-  cout_f1 <- (cout_heure_partage * min(heures_f1, heures_f2)) + 
-    ((salaire_brut * 1.25) * max(0, heures_f1 - heures_f2))
+  # Heures communes et spécifiques
+  heures_communes_mois <- min(heures_f1_mois, heures_f2_mois)
+  heures_supp_f1_mois <- max(0, heures_f1_mois - heures_communes_mois)
+  heures_supp_f2_mois <- max(0, heures_f2_mois - heures_communes_mois)
   
-  cout_f2 <- (cout_heure_partage * min(heures_f1, heures_f2)) + 
-    ((salaire_brut * 1.25) * max(0, heures_f2 - heures_f1))
+  # Proportions des heures pour calculer le partage
+  proportion_communes_f1 <- heures_communes_mois / (heures_f1_mois + heures_f2_mois)
+  proportion_communes_f2 <- heures_communes_mois / (heures_f1_mois + heures_f2_mois)
   
-  cout_f1 <- (cout_f1 * (52 - vacances) / 52)*4
-  cout_f2 <- (cout_f2 * (52 - vacances) / 52)*4
+  # Répartition des coûts ajustée pour garantir l'égalité au salaire brut
+  cout_communes <- salaire_brut_mois * (heures_communes_mois / (heures_f1_mois + heures_f2_mois))
+  cout_f1 <- (proportion_communes_f1 * cout_communes) + 
+    (salaire_brut * heures_supp_f1_mois)
+  cout_f2 <- (proportion_communes_f2 * cout_communes) + 
+    (salaire_brut * heures_supp_f2_mois)
+  
+  
+  total_cout <- cout_f1 + cout_f2
+  ajustement <- salaire_brut_mois / total_cout
+  
+  cout_f1 <- cout_f1 * ajustement
+  cout_f2 <- cout_f2 * ajustement
   
   tibble(
     cout_f1 = cout_f1,
-    cout_f2 = cout_f2
+    cout_f2 = cout_f2,
+    salaire_brut_mois = salaire_brut_mois,
+    total_cout = cout_f1 + cout_f2
   )
 }
+
 
 #4. Calcul des déductions légales
 #' Title
@@ -188,7 +210,7 @@ calculer_tous_les_couts <- function(salaire_net, salaire_brut, transport_bonus, 
   
   salaire <- calculer_salaire( salaire_brut,transport_bonus, heures_f1, heures_f2)
   
-  cout_base <- calculer_cout_base(salaire_brut, heures_f1, heures_f2, vacances)
+  cout_base <- calculer_cout_base(salaire_brut,transport_bonus, heures_f1, heures_f2, vacances)
   
   deductions <- calculer_deductions(cout_base$cout_f1, cout_base$cout_f2, heures_f1, heures_f2)
   
@@ -259,3 +281,41 @@ calculer_reste_salaire_familles <- function(revenu_f1, revenu_f2, cout_f1, cout_
     reste_salaire_f2 = reste_salaire_f2
   )
 }
+
+# 9 calcule sur une duree
+
+calculer_cout_duree <- function(salaire_brut, transport_bonus, heures_f1, heures_f2, vacances, duree = "mois", nb_duree = 1) {
+  # Valider l'entrée pour la durée
+  if (!duree %in% c("jour", "mois")) {
+    stop("La durée doit être soit 'jour' soit 'mois'.")
+  }
+  
+  if (duree == "jour") {
+    cout <- calculer_cout_base(salaire_brut, transport_bonus, heures_f1, heures_f2)
+    
+    cout_f1 <- cout$cout_f1 /30 # hors week ends 5j/semainee
+    cout_f2 <- cout$cout_f2 /30
+    
+    total_cout <- (cout_f1 + cout_f2) * nb_duree 
+    
+  } else if (duree == "mois") {
+    cout <- calculer_cout_base(salaire_brut, transport_bonus, heures_f1, heures_f2)
+    
+    cout_f1 <- cout$cout_f1
+    cout_f2 <- cout$cout_f2
+    
+    # Coût total pour la période en mois
+    total_cout <- (cout_f1 + cout_f2) * nb_duree
+  }
+  
+  tibble(
+    duree = duree,
+    nb_duree = nb_duree,
+    cout_f1 = cout_f1 * nb_duree,
+    cout_f2 = cout_f2 * nb_duree,
+    total_cout = total_cout
+  )
+}
+
+
+

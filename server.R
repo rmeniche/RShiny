@@ -19,6 +19,17 @@
         cout_f2 = resultats$cout_f2
       )
       
+      # Calculer les coûts pour une durée donnée
+      cout_duree <- calculer_cout_duree(
+        salaire_brut = input$salaire_brut,
+        transport_bonus = input$transport_bonus,
+        heures_f1 = input$heures_f1,
+        heures_f2 = input$heures_f2,
+        vacances = input$vacation_weeks,
+        duree = input$duree_type,
+        nb_duree = input$duree_nb
+      )
+      
       # pour afficher les résultats
       output$resultats <- renderText({
         paste(
@@ -31,7 +42,11 @@
           "\nCoût Famille 1 apres déductions :", round(resultats$reste_f1, 2), "€",
           "\nCoût Famille 2 apres déductions :", round(resultats$reste_f2, 2), "€",
           "\nReste Famille 1 après paiement :", round(reste_revenus$reste_salaire_f1, 2), "€",
-          "\nReste Famille 2 après paiement :", round(reste_revenus$reste_salaire_f2, 2), "€"
+          "\nReste Famille 2 après paiement :", round(reste_revenus$reste_salaire_f2, 2), "€",
+          "\n\nCoût sur la durée (", input$duree_nb, input$duree_type, ") :",
+          "\nFamille 1 :", round(cout_duree$cout_f1, 2), "€",
+          "\nFamille 2 :", round(cout_duree$cout_f2, 2), "€",
+          "\nTotal :", round(cout_duree$total_cout, 2), "€"
         )
       })
       
