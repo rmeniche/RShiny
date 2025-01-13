@@ -21,6 +21,10 @@ Evencia Michondard
 - functions : Les fonctions
 - www : Les scripts web
 
+## Libraries
 
+Le projet utilise les librairies suivantes : 
 
-
+- tidyverse : Pour traiter les données, les graphiques etc..
+- shiny : Pour générer une application Shiny
+- shinydashboard : Pour utiliser la fonction DashboardPage pour le tableau de bord
