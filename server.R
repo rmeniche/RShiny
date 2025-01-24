@@ -2,8 +2,8 @@
   server <- function(input, output){
     observeEvent(input$calculer, {
       
-      # Calculer les coûts pour chaque famille
-      resultats <- calculer_tous_les_couts(
+      # calcul les coûts pour chaque famille
+      resultats <- calcul_tous_les_couts(
         salaire_brut = input$salaire_brut,
         transport_bonus = input$transport_bonus,
         heures_f1 = input$heures_f1,
@@ -11,16 +11,16 @@
         vacances = input$vacation_weeks
       )
       
-      # Calculer le reste du revenu après paiement
-      reste_revenus <- calculer_reste_salaire_familles(
+      # calcul le reste du revenu après paiement
+      reste_revenus <- calcul_reste_salaire_familles(
         revenu_f1 = input$revenu_f1,
         revenu_f2 = input$revenu_f2,
         cout_f1 = resultats$cout_f1,
         cout_f2 = resultats$cout_f2
       )
       
-      # Calculer les coûts pour une durée donnée
-      cout_duree <- calculer_cout_duree(
+      # calcul les coûts pour une durée donnée
+      cout_duree <- calcul_cout_duree(
         salaire_brut = input$salaire_brut,
         transport_bonus = input$transport_bonus,
         heures_f1 = input$heures_f1,
