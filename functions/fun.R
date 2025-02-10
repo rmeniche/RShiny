@@ -15,18 +15,21 @@ calcul_cout_et_salaire <- function(salaire_brut, transport_bonus, heures_f1, heu
   heures_f1_mois <- heures_f1 * 4
   heures_f2_mois <- heures_f2 * 4
   
-  # Heures communes et spécifiques
-  heures_communes_mois <- min(heures_f1_mois, heures_f2_mois)
-  heures_supp_f1_mois <- max(0, heures_f1_mois - heures_communes_mois)
-  heures_supp_f2_mois <- max(0, heures_f2_mois - heures_communes_mois)
+  # Heures communes et supplémentaires
+  #heures_communes_mois <- min(heures_f1_mois, heures_f2_mois)
+  heures_norm_f1_mois <- min(40, heures_f1) * 4
+  heures_norm_f2_mois <- min(40, heures_f2) * 4
+  
+  heures_supp_f1_mois <- max(0, heures_f1 - 40) * 4
+  heures_supp_f2_mois <- max(0, heures_f2 - 40) * 4
   
   # Calcul des coûts pour chaque famille
-  cout_f1 <- (salaire_brut * heures_communes_mois / 2) + (salaire_brut * 1.25 * heures_supp_f1_mois)
-  cout_f2 <- (salaire_brut * heures_communes_mois / 2) + (salaire_brut * 1.25 * heures_supp_f2_mois)
+  cout_f1 <- (salaire_brut * heures_norm_f1_mois) + (salaire_brut * 1.25 * heures_supp_f1_mois)
+  cout_f2 <- (salaire_brut * heures_norm_f2_mois) + (salaire_brut * 1.25 * heures_supp_f2_mois)
   
   # Ajustement pour les vacances
-  cout_f1 <- cout_f1 * (52 - vacances) / 52
-  cout_f2 <- cout_f2 * (52 - vacances) / 52
+  cout_f1 <- cout_f1 *(1 - (vacances - 5) / 52)
+  cout_f2 <- cout_f2 *(1 - (vacances - 5) / 52)
   
   # Calcul du salaire brut mensuel total
   brut_mois <- cout_f1 + cout_f2 + transport_bonus
