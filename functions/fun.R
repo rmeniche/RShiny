@@ -15,8 +15,7 @@ calcul_cout_et_salaire <- function(salaire_brut, transport_bonus, heures_f1, heu
   heures_f1_mois <- heures_f1 * 4
   heures_f2_mois <- heures_f2 * 4
   
-  # Heures communes et supplémentaires
-  #heures_communes_mois <- min(heures_f1_mois, heures_f2_mois)
+  # Heures normal et supplémentaires
   heures_norm_f1_mois <- min(40, heures_f1) * 4
   heures_norm_f2_mois <- min(40, heures_f2) * 4
   

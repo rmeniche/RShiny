@@ -3,6 +3,10 @@
 library(tidyverse)
 library(shiny)
 library(shinydashboard)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(purrr)
 
 
 # Constantes
@@ -15,3 +19,5 @@ max_h <- 48
 
 
 # Fonctions
+
+source("functions/fun.R")
