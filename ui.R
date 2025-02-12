@@ -78,16 +78,9 @@ body <- dashboardBody(
     # Contenu lié à l'onglet "Résumé"
     tabItem(
       tabName = "resume",
-      h2("Partie résumé"),
-      fluidRow(
-        box(width = 12),
-        box(width = 12)
-      )
+      h2("Partie résumé")
     )
-  ),
-  
-  # Pied de page
-  includeHTML("www/footer.html")
+  )
 )
 
 
