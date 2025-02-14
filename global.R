@@ -14,10 +14,14 @@ library(purrr)
 charge_sociale <- .23
 max_h <- 48
 
-# Data
-
-
 
 # Fonctions
 
-source("functions/fun.R")
+source("functions/calcul_cout_duree.R")
+source("functions/calcul_cout_et_salaire.R")
+source("functions/calcul_credit_impot.R")
+source("functions/calcul_deductions.R")
+source("functions/calcul_reste_a_payer.R")
+source("functions/calcul_reste_salaire_familles.R")
+source("functions/calcul_tous_les_couts.R")
+source("functions/visualiser_couts.R")

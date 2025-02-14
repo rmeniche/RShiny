@@ -31,7 +31,7 @@ calcul_cout_et_salaire <- function(salaire_brut, transport_bonus, heures_f1, heu
   cout_f2 <- cout_f2 *(1 - (vacances - 5) / 52)
   
   # Calcul du salaire brut mensuel total
-  brut_mois <- cout_f1 + cout_f2 + transport_bonus
+  brut_mois <- cout_f1 + cout_f2 + transport_bonus * .75
   
   # Calcul du salaire net mensuel (77 % du brut)
   net_mois <- brut_mois * 0.77
