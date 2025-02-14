@@ -53,7 +53,7 @@ body <- dashboardBody(
           width = 4,
           h3("Paramètres généraux"),
           numericInput("salaire_brut", "Salaire brut horaire (€) :", value = 12, min = 0),
-          numericInput("transport_bonus", "Prime de transport (€) :", value = 50, min = 0),
+          numericInput("transport_bonus", "Coût de transport (€) :", value = 50, min = 0),
           numericInput("vacation_weeks", "Nombre de semaines de vacances :", value = 5, min = 0, max = 52),
           h3("Calcul par durée"),
           selectInput("duree_type", "Type de durée :", choices = c("jour", "mois"), selected = "mois"),
@@ -78,7 +78,12 @@ body <- dashboardBody(
     # Contenu lié à l'onglet "Résumé"
     tabItem(
       tabName = "resume",
-      h2("Partie résumé")
+      h3("Résumé de l'outil de simulation"),
+      p("On utilise un code pour décrire les différentes situations possibles"),
+      p("M = Mercredi"),
+      p("F1 = Famille 1 seule"),
+      p("C = Commun"),
+      DTOutput("resumes")
     )
   )
 )

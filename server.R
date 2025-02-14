@@ -55,4 +55,27 @@
         visualiser_couts(resultats)
       })
     })
+    
+    output$resumes <- renderDT({
+      df_res <- df_resume()
+      
+      datatable(
+        df_res,
+        options = list(
+          paging = FALSE,
+          dom = 't'
+        ),
+        colnames = c("Code Description",
+                     "Nb heures mercredi",
+                     "Nb mercredis F1",
+                     "Nb mecredis communs",
+                     "Nb heures nounou",
+                     "Panier", 
+                     "Salaire horaire",
+                     "Salaire net F1 après prime nounou",
+                     "Prix F1",
+                     "Prix F2"
+                     )
+      )
+    })
   }
