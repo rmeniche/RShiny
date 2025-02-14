@@ -1,10 +1,20 @@
 # 9 calcule sur une duree
-calcul_cout_duree <- function(salaire_brut, transport_bonus, heures_f1, heures_f2, vacances, duree = "mois", nb_duree = 1) {
+calcul_cout_duree <- function(salaire_brut,
+                              transport_bonus,
+                              heures_f1,
+                              heures_f2,
+                              vacances,
+                              duree = "mois",
+                              nb_duree = 1) {
   if (!duree %in% c("jour", "mois")) {
-    stop("La durée doit être soit 'jour' soit 'mois'.")
+    message_erreur("La durée doit être soit 'jour' soit 'mois'.")
   }
   
-  cout <- calcul_cout_et_salaire(salaire_brut, transport_bonus, heures_f1, heures_f2, vacances)
+  cout <- calcul_cout_et_salaire(salaire_brut,
+                                 transport_bonus, 
+                                 heures_f1,
+                                 heures_f2,
+                                 vacances)
   
   if (duree == "jour") {
     cout_f1 <- cout$cout_f1 / 30

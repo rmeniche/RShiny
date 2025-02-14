@@ -10,7 +10,12 @@
 #' @export
 #'
 #' @examples
-calcul_deductions <- function(cout_f1, cout_f2, heures_f1, heures_f2, brut_mensuel, net_mensuel) {
+calcul_deductions <- function(cout_f1,
+                              cout_f2,
+                              heures_f1,
+                              heures_f2, 
+                              brut_mensuel, 
+                              net_mensuel) {
   
   charge <- (brut_mensuel - net_mensuel) + 0.25 * brut_mensuel
   
@@ -23,8 +28,10 @@ calcul_deductions <- function(cout_f1, cout_f2, heures_f1, heures_f2, brut_mensu
   deduction_par_heure_f2 <- heures_f2 * 2 * 4
   
   # Calcul des déductions totales pour chaque famille
-  deductions_totales_f1 <- min(deduction_f1_charges + deduction_par_heure_f1, charge)
-  deductions_totales_f2 <- min(deduction_f2_charges + deduction_par_heure_f2, charge)
+  deductions_totales_f1 <- min(deduction_f1_charges + deduction_par_heure_f1,
+                               charge)
+  deductions_totales_f2 <- min(deduction_f2_charges + deduction_par_heure_f2,
+                               charge)
   
   tibble(
     deductions_f1 = deductions_totales_f1,

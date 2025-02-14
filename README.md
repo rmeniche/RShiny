@@ -28,3 +28,6 @@ Le projet utilise les librairies suivantes :
 - tidyverse : Pour traiter les données, les graphiques etc..
 - shiny : Pour générer une application Shiny
 - shinydashboard : Pour utiliser la fonction DashboardPage pour le tableau de bord
+- shinyjs : Afin de gérer certains évènements dynamiquement
+- DT : Pour afficher des dataframes 
+- plotly : Pour l'affichage interactif des ggplot

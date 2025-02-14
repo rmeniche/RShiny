@@ -20,8 +20,8 @@
       reste_revenus <- calcul_reste_salaire_familles(
         revenu_f1 = input$revenu_f1,
         revenu_f2 = input$revenu_f2,
-        cout_f1 = resultats$cout_f1,
-        cout_f2 = resultats$cout_f2
+        reste_f1 = resultats$reste_f1,
+        reste_f2 = resultats$reste_f2
       )
       
       # calcul les coûts pour une durée donnée
@@ -80,7 +80,7 @@
                       round(cout_duree$cout_f2, 2)))
         
         datatable(df_res2,
-                  colnames = c("Données", "Quantités en euros"),
+                  colnames = c("Nom des données", "Quantités en euros"),
                   options = list(
                     paging = FALSE,
                     dom = 't'
@@ -145,8 +145,8 @@
                      "Panier", 
                      "Salaire horaire",
                      "Salaire net F1",
-                     "Prix F1",
-                     "Prix F2"
+                     "Prix F1 après CI (€)",
+                     "Prix F2 après CI (€)"
                      )
       )
     })

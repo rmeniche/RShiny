@@ -12,7 +12,12 @@
 #' @export
 #'
 #' @examples
-calcul_reste_a_payer <- function(cout_f1, cout_f2, deductions_f1, deductions_f2, credit_f1, credit_f2) {
+calcul_reste_a_payer <- function(cout_f1, 
+                                 cout_f2,
+                                 deductions_f1, 
+                                 deductions_f2,
+                                 credit_f1,
+                                 credit_f2) {
   
   reste_f1 <- cout_f1 - deductions_f1 
   reste_f2 <- cout_f2 - deductions_f2 

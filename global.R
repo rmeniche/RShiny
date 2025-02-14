@@ -3,14 +3,9 @@
 library(tidyverse)
 library(shiny)
 library(shinydashboard)
-library(dplyr)
 library(shinyjs)
 library(DT)
 library(plotly)
-library(tidyr)
-library(ggplot2)
-library(purrr)
-
 
 # Constantes
 
@@ -29,3 +24,4 @@ source("functions/calcul_reste_salaire_familles.R")
 source("functions/calcul_tous_les_couts.R")
 source("functions/visualiser_couts.R")
 source("functions/df_resume.R")
+source("functions/message_erreur.R")

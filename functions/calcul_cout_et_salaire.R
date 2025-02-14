@@ -10,7 +10,11 @@
 #' @export
 #'
 #' @examples
-calcul_cout_et_salaire <- function(salaire_brut, transport_bonus, heures_f1, heures_f2, vacances) {
+calcul_cout_et_salaire <- function(salaire_brut,
+                                   transport_bonus,
+                                   heures_f1,
+                                   heures_f2,
+                                   vacances) {
   # Heures mensuelles pour chaque famille
   heures_f1_mois <- heures_f1 * 4
   heures_f2_mois <- heures_f2 * 4
