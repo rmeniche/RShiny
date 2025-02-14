@@ -15,12 +15,14 @@ sidebar <- dashboardSidebar(
 # Body
 
 body <- dashboardBody(
+  useShinyjs(), 
   tabItems(
     
     # Contenu lié à l'onglet "Mode d'emploi"
     tabItem(
       tabName = "manuel",
-      h2("Mode d'emploi"),
+      h3("Mode d'emploi"),
+      hr(),
       fluidRow(
         box(
           width = 12,
@@ -30,6 +32,7 @@ body <- dashboardBody(
           infoBox("Nombre d'heures semaine maximum", "48", icon = icon("business-time"), fill = TRUE)
         )
       ),
+      hr(),
       fluidRow(
         box(
           width = 12,
@@ -61,7 +64,8 @@ body <- dashboardBody(
     # Contenu lié à l'onglet "Simulation"
     tabItem(
       tabName = "simu",
-      h2("Partie simulation"),
+      h3("Partie simulation"),
+      hr(),
       fluidRow(
         box(
           width = 4,
@@ -86,19 +90,44 @@ body <- dashboardBody(
           numericInput("duree_nb", "Nombre de jours ou mois :", value = 1, min = 1)
         )
       ),
-      actionButton("calculer", "Calculer"),
-      
+      fluidRow("",
+               align = "center", 
+               actionButton("calculer", "Lancer la simulation")),
+      hr(),
+      fluidRow(id = "resultats_simu",
+      fluidRow("",
+               box(
+                 title = "Données de la famille 1",
+                 status = "primary",
+                 solidHeader = TRUE,
+                 DTOutput("resf1")
+               ),
+               box(
+                 title = "Données de la famille 2",
+                 status = "success",
+                 solidHeader = TRUE,
+                 DTOutput("resf2")
+               )
+      ),
+      fluidRow("", 
+               box(
+                 title = "Données combinées des 2 familles",
+                 status = "danger",
+                 solidHeader = TRUE,
+                 DTOutput("combinees")
+               ),
+               box(
+                 title = "Informations sur le salaire de la nounou",
+                 status = "info",
+                 solidHeader = TRUE,
+                 DTOutput("salairenounou")
+               )
+      ),
       fluidRow(
-        align="center",
-        box(
-          h3("Résultats"),
-          DTOutput("resultats")
-          ),
-        box(
+        align = "center",
           h3("Visualisation des résultats"),
           plotlyOutput("graphique") 
-        )
-      )
+      ))
     ),
     
     # Contenu lié à l'onglet "Résumé"
@@ -106,8 +135,12 @@ body <- dashboardBody(
       tabName = "resume",
       h3("Résumé de l'outil de simulation"),
       p("On utilise un code pour décrire les différentes situations possibles"),
-      p("MF1 = Mercredi Famille 1 seule"),
-      p("MC = Mercredi commun"),
+      tags$ul(
+        tags$li("MF1 = Mercredi Famille 1 seule"),
+        tags$li("MC = Mercredi commun")
+      ),
+      p("Par exemple, 1MC 2MF1 signifie :"),
+      p("Un mercredi en commun et deux mercredis où seule la famille 1 fait garder son enfant."),
       DTOutput("resumes")
     )
   )

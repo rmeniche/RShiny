@@ -14,8 +14,13 @@ visualiser_couts <- function(resultats) {
                  names_to = "type", values_to = "valeur") %>%
     ggplot(aes(x = type, y = valeur, fill = type)) +
     geom_col(show.legend = FALSE) +
-    labs(title = "Répartition des coûts et du reste à payer",
-         x = "Type de coût",
+    labs(x = "Type de coût",
          y = "Montant (€)") +
-    theme_minimal()
+    theme_minimal() +
+    theme(plot.title = element_text(vjust = .5)) +
+    scale_x_discrete(labels=c("Coût initial famille 1",
+                                "Coût initial famille 2",
+                                "Reste à payer famille 1",
+                                "Reste à payer famille 2")) +
+    theme(legend.position = "none")
 }
