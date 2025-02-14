@@ -31,27 +31,49 @@
       )
       
       # pour afficher les résultats
-      output$resultats <- renderText({
-        paste(
-          "Salaire mensuel brut de la nounou :", round(resultats$brut_mensuel, 2), "€",
-          "\nSalaire mensuel net de la nounou :", round(resultats$net_mensuel, 2), "€",
-          "\nCoût Famille 1 avant déductions :", round(resultats$cout_f1, 2), "€",
-          "\nCoût Famille 2 avant déductions :", round(resultats$cout_f2, 2), "€",
-          "\nCredit impot Famille 1 :", round(resultats$credit_f1, 2), "€",
-          "\nCredit impot Famille 2 :", round(resultats$credit_f2, 2), "€",
-          "\nCoût Famille 1 apres déductions :", round(resultats$reste_f1, 2), "€",
-          "\nCoût Famille 2 apres déductions :", round(resultats$reste_f2, 2), "€",
-          "\nReste Famille 1 après paiement :", round(reste_revenus$reste_salaire_f1, 2), "€",
-          "\nReste Famille 2 après paiement :", round(reste_revenus$reste_salaire_f2, 2), "€",
-          "\n\nCoût sur la durée (", input$duree_nb, input$duree_type, ") :",
-          "\nFamille 1 :", round(cout_duree$cout_f1, 2), "€",
-          "\nFamille 2 :", round(cout_duree$cout_f2, 2), "€",
-          "\nTotal :", round(cout_duree$total_cout, 2), "€"
-        )
+      output$resultats <- renderDT({
+        
+        df_resultats <- data.frame(
+          Donnees = c("Salaire mensuel brut de la nounou",
+                       "Salaire mensuel net de la nounou",
+                       "Coût Famille 1 avant déductions",
+                       "Coût Famille 2 avant déductions",
+                       "Credit impot Famille 1",
+                       "Credit impot Famille 2",
+                       "Coût Famille 1 après déductions",
+                       "Coût Famille 2 après déductions",
+                       "Reste Famille 1 après paiement",
+                       "Reste Famille 2 après paiement",
+                       paste("Coût sur la durée (", input$duree_nb, input$duree_type, ")"),
+                       "Famille 1 (Coût sur la durée)",
+                       "Famille 2 (Coût sur la durée)",
+                       "Total (Coût sur la durée)")
+          ,
+          Valeurs = c(round(resultats$brut_mensuel, 2),
+                     round(resultats$net_mensuel, 2),
+                     round(resultats$cout_f1, 2),
+                     round(resultats$cout_f2, 2),
+                     round(resultats$credit_f1, 2),
+                     round(resultats$credit_f2, 2),
+                     round(resultats$reste_f1, 2),
+                     round(resultats$reste_f2, 2),
+                     round(reste_revenus$reste_salaire_f1, 2),
+                     round(reste_revenus$reste_salaire_f2, 2),
+                     NA, # Placeholder for the duration text
+                     round(cout_duree$cout_f1, 2),
+                     round(cout_duree$cout_f2, 2),
+                     round(cout_duree$total_cout, 2)))
+        
+        datatable(df_resultats,
+                  colnames = c("Données", "Valeurs"),
+                  options = list(
+                    paging = FALSE,
+                    dom = 't'
+                  ))
       })
-      
+        
       # graphique des coûts
-      output$graphique <- renderPlot({
+      output$graphique <- renderPlotly({
         visualiser_couts(resultats)
       })
     })
@@ -62,10 +84,14 @@
       datatable(
         df_res,
         options = list(
+          columnDefs = list(list(className = 'dt-center',
+                                 targets = 1:10), 
+                            list(targets = 10,
+                                 visible = FALSE)), # Centrage des valeurs 
           paging = FALSE,
           dom = 't'
         ),
-        colnames = c("Code Description",
+        colnames = c("Situation (sur 4 mercredis)",
                      "Nb heures mercredi",
                      "Nb mercredis F1",
                      "Nb mecredis communs",
