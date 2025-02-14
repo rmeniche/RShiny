@@ -5,7 +5,7 @@
     
     observeEvent(input$calculer, {
       
-      toggle("resultats_simu")
+      show("resultats_simu")
       
       # calcul les coûts pour chaque famille
       resultats <- calcul_tous_les_couts(
